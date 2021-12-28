@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Pot {
 
@@ -19,21 +20,25 @@ public class Pot {
     }
 
     public Pot canPlay(Team opponent) {
-        ArrayList<Team> canPlayAgainstArray = new ArrayList<Team>();
-        for (Team team : teams) {
-            if (team.canPlay(opponent)) {
-                canPlayAgainstArray.add(team);
+        if (opponent != null) {
+            ArrayList<Team> canPlayAgainstArray = new ArrayList<Team>();
+            for (Team team : teams) {
+                if (team.canPlay(opponent)) {
+                    canPlayAgainstArray.add(team);
+                }
             }
-        }
-        if (canPlayAgainstArray.size() > 0) {
-            Pot selection = new Pot(opponent.getName(), canPlayAgainstArray);
-            selection.sortByGroup();
-            return selection;
+            if (canPlayAgainstArray.size() > 0) {
+                Pot selection = new Pot(opponent.getName(), canPlayAgainstArray);
+                selection.sortByGroup();
+                return selection;
+            }
         }
         return null;
     }
 
     public Team checkNoForces(Pot otherPot) {
+        System.out.println("Checking forces in pot: " + this.getName());
+        System.out.println();
         for (Team teamA : teams) {
             // ArrayList<Team> opponents = new ArrayList<Team>();
             System.out.println("Checking forces for: " + teamA + " ...");
@@ -41,9 +46,11 @@ public class Pot {
                 System.out.println("There is a force for " + teamA);
                 return teamA;
             }
-            // Pot opponents = new Pot(teamA, )
+            System.out.println("No forces for: " + teamA);
+            System.out.println();
         }
-        System.out.println("No forces yet");
+        System.out.println("No forces in pot: " + this.getName());
+        System.out.println();
         return null;
     }
 
@@ -79,6 +86,19 @@ public class Pot {
 
     public int size() {
         return this.teams.size();
+    }
+
+    public Team getRandomTeam() {
+        Random rand = new Random();
+        int myRand = rand.nextInt(this.size());
+        int count = 0;
+        for (Team team : teams) {
+            if (count == myRand) {
+                return team;
+            }
+            count++;
+        }
+        return null;
     }
 
     @Override

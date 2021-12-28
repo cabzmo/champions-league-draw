@@ -31,23 +31,19 @@ public class cld {
                 new Team("Villareal CF", "Spain", "ESP", 'F', 2)
         };
 
-        ArrayList<Team> winners = new ArrayList<Team>();
-        ArrayList<Team> runnersUp = new ArrayList<Team>();
-        for (Team team : teams) {
-            if (team.getPosition() == 1) {
-                winners.add(team);
-            } else {
-                runnersUp.add(team);
-            }
-        }
-        Pot winnersPot = new Pot("Winners", winners);
-        Pot runnersUpPot = new Pot("Runners-up", runnersUp);
-        System.out.println(winnersPot + "" + winnersPot.size());
-        System.out.println();
-        System.out.println(runnersUpPot + "" + runnersUp.size());
+        // ArrayList<Team> winners = new ArrayList<Team>();
+        // ArrayList<Team> runnersUp = new ArrayList<Team>();
+        // for (Team team : teams) {
+        // if (team.getPosition() == 1) {
+        // winners.add(team);
+        // } else {
+        // runnersUp.add(team);
+        // }
+        // }
+        // Pot winnersPot = new Pot("Winners", winners);
+        // Pot runnersUpPot = new Pot("Runners-up", runnersUp);
 
-        // Pot selectionPot = runnersUpPot.canPlay(winnersPot.getTeam("Real Madrid
-        // CF"));
+        // Pot selectionPot = winnersPot.canPlay(runnersUpPot.getTeam("FC Salzburg"));
         // System.out.println();
         // System.out.println(selectionPot + "" + selectionPot.size());
 
@@ -61,16 +57,27 @@ public class cld {
         // System.out.println(forced + " has to play " + opponent);
         // }
 
-        Draw draw = new Draw();
-        Team winnersTeam = winnersPot.getTeam("FC Bayern Munchen");
-        Team runnersUpTeam = runnersUpPot.getTeam("FC Salzburg");
-        draw.addToDraw(winnersPot, runnersUpPot, winnersTeam, runnersUpTeam);
+        // Draw draw = new Draw();
+        // Team winnersTeam = winnersPot.getTeam("FC Bayern Munchen");
+        // Team runnersUpTeam = runnersUpPot.getTeam("FC Salzburg");
+        // draw.addToDraw(winnersPot, runnersUpPot, winnersTeam, runnersUpTeam);
 
-        System.out.println();
-        System.out.println(winnersPot + "" + winnersPot.size());
-        System.out.println();
-        System.out.println(runnersUpPot + "" + runnersUp.size());
+        // System.out.println();
+        // System.out.println(winnersPot + "" + winnersPot.size());
+        // System.out.println();
+        // System.out.println(runnersUpPot + "" + runnersUp.size());
 
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        Draw draw = new Draw(teams);
+
+        System.out.println(draw.getWinnersPot() + "" + draw.getWinnersPot().size());
+        System.out.println();
+        System.out.println(draw.getRunnersUpPot() + "" + draw.getRunnersUpPot().size());
+        while (draw.getWinnersPot().size() > 0) {
+            draw.findMatchup();
+        }
+
+        System.out.println(draw);
     }
 
 }

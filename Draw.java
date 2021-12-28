@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Draw {
 
@@ -21,18 +22,89 @@ public class Draw {
         runnersUpPot = new Pot("Runners-up", runnersUp);
     }
 
-    public void addToDraw(Pot winnersPot, Pot runnersUpPot, Team winnersTeam, Team runnersUpTeam) {
-        winnersPot.removeTeam(winnersTeam);
-        runnersUpPot.removeTeam(runnersUpTeam);
-        if (checkMatchup(winnersTeam, runnersUpTeam)) {
-            finalDraw.put(winnersTeam, runnersUpTeam);
-            System.out.println("Successfully registered matchup:\n"
-                    + runnersUpTeam.getName().toUpperCase() + " " + runnersUpTeam.getCountryAbbr() + " vs "
-                    + winnersTeam.getName().toUpperCase() + " " + winnersTeam.getCountryAbbr());
-        }
+    public Pot getWinnersPot() {
+        return winnersPot;
     }
 
-    public boolean checkMatchup(Team winnersTeam, Team runnersUpTeam) {
+    public Pot getRunnersUpPot() {
+        return runnersUpPot;
+    }
+
+    private void addToDraw(Team winnersTeam, Team runnersUpTeam) {
+
+        this.finalDraw.put(runnersUpTeam, winnersTeam);
+        System.out.println("Successfully registered matchup:\n"
+                + runnersUpTeam.getName().toUpperCase() + " " + runnersUpTeam.getCountryAbbr() + " vs "
+                + winnersTeam.getName().toUpperCase() + " " + winnersTeam.getCountryAbbr());
+    }
+
+    public void findMatchup() {
+        Team runnerUp;
+        Team winner;
+
+        // check forces either side
+        // if force, matchup force
+        // else
+
+        System.out.println("Checking for forces ... ");
+        if (this.runnersUpPot.checkNoForces(winnersPot) != null) {
+            runnerUp = this.runnersUpPot.checkNoForces(winnersPot);
+            winner = runnerUp.hasToPlay(winnersPot);
+        } else if (this.winnersPot.checkNoForces(runnersUpPot) != null) {
+            winner = this.winnersPot.checkNoForces(runnersUpPot);
+            runnerUp = winner.hasToPlay(runnersUpPot);
+        } else {
+            // Runners up pick at random
+            runnerUp = this.runnersUpPot.getTeam(this.runnersUpPot.getRandomTeam().getName());
+            // runnerUp = this.runnersUpPot.getTeam("Paris Saint Germain");
+            System.out.println(runnerUp);
+
+            // prep teams they can play against
+
+            Pot selectionPot = this.winnersPot.canPlay(runnerUp);
+            System.out.println();
+            System.out.println(selectionPot + "" + selectionPot.size());
+
+            // Pick random from that pot
+            winner = this.winnersPot.getTeam(selectionPot.getRandomTeam().getName());
+        }
+
+        // add to final draw
+        if (checkMatchup(winner, runnerUp)) {
+            this.addToDraw(winner, runnerUp);
+        } else {
+            System.out.println("SOMEWHERE MAJOR ERROR: ");
+            System.out.println("!!!!! " + winner.getName().toUpperCase() + " " + winner.getCountryAbbr() +
+                    " vs " + runnerUp.getName().toUpperCase() + " " + runnerUp.getCountryAbbr() +
+                    " NOTPOSSIBLE !!!!!\n");
+        }
+
+        this.winnersPot.removeTeam(winner);
+        this.runnersUpPot.removeTeam(runnerUp);
+
+        System.out.println("\nSuccesfully removed teams from their respective pots\n");
+        System.out.println(this.getWinnersPot() + " " + this.getWinnersPot().size());
+        System.out.println();
+        System.out.println(this.getRunnersUpPot() + " " + this.getRunnersUpPot().size());
+
+    }
+
+    private boolean checkMatchup(Team winnersTeam, Team runnersUpTeam) {
         return winnersTeam.canPlay(runnersUpTeam);
+    }
+
+    @Override
+    public String toString() {
+        String statement = "";
+
+        for (Map.Entry<Team, Team> entry : finalDraw.entrySet()) {
+            Team key = entry.getKey();
+            Team value = entry.getValue();
+
+            statement += key.getName().toUpperCase() + " " + key.getCountryAbbr();
+            statement += " VS ";
+            statement += value.getName().toUpperCase() + " " + value.getCountryAbbr() + "\n";
+        }
+        return statement;
     }
 }
