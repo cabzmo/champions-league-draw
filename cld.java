@@ -1,25 +1,26 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class cld {
 
     public static void main(String[] args) {
         Team[] teams = {
-                new Team("FC Salzburg", "Austria", "AUT", 'G', 2),
-                new Team("FC Bayern Munchen", "Germany", "GER", 'E', 1),
-                new Team("Sporting Clube De Portugal", "Portugal", "POR", 'C', 2),
-                new Team("SL Benfica", "Portugal", "POR", 'E', 2),
                 new Team("Manchester City FC", "England", "ENG", 'A', 1),
-                new Team("Manchester United", "England", "ENG", 'F', 1),
-                new Team("Chelsea FC", "England", "ENG", 'H', 2),
-                new Team("Liverpool FC", "England", "ENG", 'B', 1),
-                new Team("AFC Ajax", "Netherlands", "NED", 'C', 1),
                 new Team("Paris Saint Germain", "France", "FRA", 'A', 2),
-                new Team("LOSC Lille", "France", "FRA", 'G', 1),
-                new Team("Juventus", "Italy", "ITA", 'H', 1),
-                new Team("FC Internazionale", "Italy", "ITA", 'D', 2),
+                new Team("Liverpool FC", "England", "ENG", 'B', 1),
                 new Team("Club Atletico De Madrid", "Spain", "ESP", 'B', 2),
+                new Team("AFC Ajax", "Netherlands", "NED", 'C', 1),
+                new Team("Sporting Clube De Portugal", "Portugal", "POR", 'C', 2),
                 new Team("Real Madrid CF", "Spain", "ESP", 'D', 1),
-                new Team("Villareal CF", "Spain", "ESP", 'F', 2)
+                new Team("FC Internazionale", "Italy", "ITA", 'D', 2),
+                new Team("FC Bayern Munchen", "Germany", "GER", 'E', 1),
+                new Team("SL Benfica", "Portugal", "POR", 'E', 2),
+                new Team("LOSC Lille", "France", "FRA", 'G', 1),
+                new Team("FC Salzburg", "Austria", "AUT", 'G', 2),
+                new Team("Manchester United", "England", "ENG", 'F', 1),
+                new Team("Villareal CF", "Spain", "ESP", 'F', 2),
+                new Team("Juventus", "Italy", "ITA", 'H', 1),
+                new Team("Chelsea FC", "England", "ENG", 'H', 2),
         };
 
         Team[] teamsWithForce = {
@@ -68,11 +69,21 @@ public class cld {
         // System.out.println(runnersUpPot + "" + runnersUp.size());
 
         /////////////////////////////////////////////////////////////////////////////////////////////
-        Draw draw = new Draw(teams);
+
+        Draw draw;
+
+        // when json is read, json fills teams variable and therefore can be null
+        if (teams != null) {
+            draw = new Draw(teams);
+        } else {
+            draw = new Draw();
+        }
 
         System.out.println(draw.getWinnersPot() + "" + draw.getWinnersPot().size());
         System.out.println();
-        System.out.println(draw.getRunnersUpPot() + "" + draw.getRunnersUpPot().size());
+        System.out.println(draw.getRunnersUpPot() + "" +
+                draw.getRunnersUpPot().size());
+
         while (draw.getWinnersPot().size() > 0) {
             draw.findMatchup();
         }

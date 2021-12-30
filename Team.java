@@ -59,7 +59,7 @@ public class Team {
 
     public boolean canPlay(Team opponent) {
         if (opponent.getGroup() != this.getGroup()) {
-            if (opponent.getCountry() != this.getCountry()) {
+            if (opponent.getCountryAbbr() != this.getCountryAbbr()) {
                 return true;
             }
         }

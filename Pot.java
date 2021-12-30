@@ -37,20 +37,20 @@ public class Pot {
     }
 
     public Team checkNoForces(Pot otherPot) {
-        System.out.println("Checking forces in pot: " + this.getName());
-        System.out.println();
+        // System.out.println("Checking forces in pot: " + this.getName());
+        // System.out.println();
         for (Team teamA : teams) {
             // ArrayList<Team> opponents = new ArrayList<Team>();
-            System.out.println("Checking forces for: " + teamA + " ...");
+            // System.out.println("Checking forces for: " + teamA + " ...");
             if (otherPot.canPlay(teamA).size() == 1) {
-                System.out.println("There is a force for " + teamA);
+                // System.out.println("There is a force for " + teamA);
                 return teamA;
             }
-            System.out.println("No forces for: " + teamA);
-            System.out.println();
+            // System.out.println("No forces for: " + teamA);
+            // System.out.println();
         }
-        System.out.println("No forces in pot: " + this.getName());
-        System.out.println();
+        // System.out.println("No forces in pot: " + this.getName());
+        // System.out.println();
         return null;
     }
 
